@@ -1,10 +1,13 @@
 import socket
 s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 s.bind(("localhost", 5000))
+
 print(s.getsockname())
+
 s.listen(5)
 client_socket, client_adress = s.accept()
 print("Message recu")
+
 print(client_socket)
 print(client_adress)
 data = client_socket.recv(1024)

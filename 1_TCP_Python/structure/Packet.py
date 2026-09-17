@@ -24,7 +24,7 @@ class Packet:
 		self.typeOfService = 0                                 # caractéristiques de service souhaitées (priorité, délai, débit)
 		self.total_length = 20+len(segment)                    # Longueur du datagramme IP en octets
 		self.identification = 1234                             # identifiant utiliser pour le réassemblage du même datagramme
-		flags = 0                                              # Contrôle de fragmentation
+		flags = 2                                              # Contrôle de fragmentation
 		fragment_offset = 0                                    # position du fragment dans le datagramme original
 		self.flags_offset = (flags << 13) | fragment_offset    
 		self.timeToLive = 64                                   # Limite le nombre de sauts qu'un paquet peut effectuer 
@@ -43,7 +43,7 @@ class Packet:
 					  self.flags_offset,
 					  self.timeToLive, 
 					  self.protocol, 
-					  self.ip_checksum, 
+					  self.checksum, 
 					  socket.inet_aton(self.src_ip), 
 					  socket.inet_aton(self.dst_ip))
 

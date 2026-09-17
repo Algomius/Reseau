@@ -5,7 +5,7 @@ from structure.Frame import Frame
 
 s = socket.socket(socket.AF_PACKET, socket.SOCK_RAW)
 
-seg = Segment("127.0.0.1", "127.0.0.1", 5000,5000,1000,0,["SYN"], b"Hello")
+seg = Segment("127.0.0.1", "127.0.0.1", 5000,5000,1000,0,["PSH", "ACK"], b"Hello")
 paq = Packet(seg.get_segment())
 tra = Frame(paq.get_packet())
 

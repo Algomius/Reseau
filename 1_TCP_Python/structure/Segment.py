@@ -41,7 +41,7 @@ class Segment:
 		reserve = 0                                   # Réserve pour une utilisation future (évolution de TCP ?)
 		self.offset_reserve = (offset << 4) | reserve # On combine 2 champs de 4 bits pour obtenir un octet
 		self.flags = self.get_flags_value(flags)
-		self.window = 65535                           # combien d'octets le récepteur est encore capable d'accepter
+		self.window = 512                             # combien d'octets le récepteur est encore capable d'accepter
 		self.checksum = 0                             # sert à détecter les erreurs de transmission
 		self.urgentP = 0                              # position de la donnée considérée comme urgente
 		self.payload = payload                        # données à envoyer au format binaire
@@ -86,3 +86,18 @@ class Segment:
 		self.checksum = checksum(self.pseudo_header + tcp_header + self.payload)
 		tcp_header = self.get_tcp_header()
 		return tcp_header + self.payload
+
+if __name__ == '__main__':
+	msg = b"\x00" + b"\x00"
+	print(checksum(msg))
+	msg = b"\x00" + b"\x01"
+	print(checksum(msg))
+	msg = b"Coucou"
+	print(checksum(msg))
+
+	seg = Segment("127.0.0.1", "127.0.0.1", 5000,5000,1000,0,["PSH", "ACK"], b"Coucou")
+	print(seg.get_segment())
+	print(seg.checksum)
+	print(checksum(seg.pseudo_header + seg.get_tcp_header() + seg.payload))
+
+	print(seg.get_flags_value(["PSH", "ACK"]))
